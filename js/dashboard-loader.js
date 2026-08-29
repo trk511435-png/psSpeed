@@ -45,5 +45,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (error) {
         repoListEl.innerHTML = `<p style="color: #ef4444;">خطأ: ${error.message}</p>`;
+
+       <script src="js/dashboard-loader.js"></script>
+
     }
 });
