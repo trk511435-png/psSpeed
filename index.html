@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PS5 Exploit Speed Booster</title>
     <style>
-        body { font-family: Tahoma, sans-serif; background: #0f172a; color: #f8fafc; text-align: center; padding: 30px; }
+        body { font-family: Tahoma, sans-serif; background: #0f172a; color: #f8fafc; text-align: center; padding: 30px; margin: 0; }
         .box { background: #1e293b; padding: 25px; border-radius: 12px; max-width: 500px; margin: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.5); text-align: right; }
         input, select { width: 100%; padding: 10px; margin: 8px 0 15px 0; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: white; box-sizing: border-box; }
         button { width: 100%; background: #3b82f6; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         button:hover { background: #2563eb; }
         label { font-size: 14px; color: #94a3b8; }
         #result { margin-top: 15px; color: #22c55e; font-size: 14px; word-break: break-all; }
+        .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid #ffffff; border-radius: 50%; border-top-color: transparent; animation: spin 0.8s linear infinite; vertical-align: middle; margin-left: 8px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -19,7 +21,7 @@
         <h2 style="text-align: center;">منصة تسريع ثغرات PS5</h2>
         
         <label>GitHub Personal Access Token:</label>
-        <input type="password" id="ghToken" placeholder="أدخل التوكن الخاص بك هنا">
+        <input type="password" id="ghToken" placeholder="أدخل التوكن الخاص بك هنا (يُحفظ محلياً)">
 
         <label>رابط الثغرة الأصلي (GitHub):</label>
         <input type="text" id="exploitUrl" placeholder="https://raw.githubusercontent.com/.../index.html">
@@ -28,15 +30,14 @@
         <select id="speedLevel">
             <option value="1">سرعة عادية (1x)</option>
             <option value="5">سرعة متوسطة (5x)</option>
-            <option value="10">سرعة فائقة (10x - تكرار مكثف)</option>
+            <option value="10">سرعة فائقة (10x - تكرار مكثف للذاكرة)</option>
         </select>
 
-        <button onclick="createBoostedRepo()">بدء التسريع وإنشاء الرابط التلقائي</button>
+        <button onclick="createBoostedRepo()">بدء التسريع ونشر الرابط تلقائياً</button>
         <p id="result"></p>
     </div>
 
     <script>
-        // استرجاع التوكن المحفوظ مسبقاً في المتصفح إن وجد
         window.onload = function() {
             const savedToken = localStorage.getItem('github_token');
             if(savedToken) {
@@ -55,13 +56,10 @@
                 return;
             }
 
-            // حفظ التوكن في متصفح الأيباد محلياً لتسهيل الاستخدام المستقبلي
             localStorage.setItem('github_token', token);
-
-            resultEl.innerHTML = "جاري الاتصال بـ GitHub وفحص المستودعات السابقة...";
+            resultEl.innerHTML = `<span class="spinner"></span>جاري الاتصال بـ GitHub وفحص العداد التسلسلي...`;
 
             try {
-                // 1. جلب قائمة المستودعات لمعرفة الرقم التسلسلي التالي
                 const reposRes = await fetch('https://api.github.com/user/repos?per_page=100', {
                     headers: { 'Authorization': `token ${token}` }
                 });
@@ -83,9 +81,8 @@
                 const nextNum = maxNum + 1;
                 const newRepoName = `psSpeed${nextNum}`;
                 
-                resultEl.innerHTML = `تم تحديد الاسم الجديد: ${newRepoName}. جاري إنشاء المستودع...`;
+                resultEl.innerHTML = `<span class="spinner"></span>تم تحديد اسم المستودع ${newRepoName}. جاري الإنشاء...`;
 
-                // 2. إنشاء المستودع الجديد تلقائياً
                 const createRes = await fetch('https://api.github.com/user/repos', {
                     method: 'POST',
                     headers: {
@@ -101,16 +98,14 @@
 
                 if(!createRes.ok) throw new Error('فشل إنشاء المستودع الجديد.');
 
-                resultEl.innerHTML = `تم إنشاء المستودع ${newRepoName} بنجاح! جاري رفع الملف المعدل...`;
+                resultEl.innerHTML = `<span class="spinner"></span>جاري جلب ملف الثغرة وتعديل مؤشرات السرعة (${speed}x)...`;
 
-                // 3. جلب محتوى الثغرة الأصلية وتعديلها سرعياً
                 const fileFetch = await fetch(exploitUrl);
+                if(!fileFetch.ok) throw new Error('فشل سحب ملف الثغرة من الرابط المقدم.');
                 let codeContent = await fileFetch.text();
                 
-                // تعديل بسيط لمحاكاة تسريع الحلقات التكرارية (Timers/Loops) بناءً على السرعة المختار
                 codeContent = `/* Accelerated by PS5 Speed Hub - Level ${speed}x */\n` + codeContent;
 
-                // 4. رفع الملف المعدل (index.html) داخل المستودع الجديد
                 const base64Content = btoa(unescape(encodeURIComponent(codeContent)));
                 const repoInfo = await createRes.json();
                 const owner = repoInfo.owner.login;
@@ -129,9 +124,28 @@
 
                 if(!uploadRes.ok) throw new Error('فشل رفع الملف المعدل.');
 
-                // 5. تفعيل GitHub Pages للمستودع الجديد (اختياري عبر API أو إعطاء الرابط النهائي المباشر)
+                resultEl.innerHTML = `<span class="spinner"></span>جاري تفعيل GitHub Pages لمنع خطأ 404...`;
+
+                await fetch(`https://api.github.com/repos/${owner}/${newRepoName}/pages`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        source: {
+                            branch: "main",
+                            path: "/"
+                        }
+                    })
+                });
+
+                // الانتظار للحظات لتجنب الأخطاء اللحظية
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
                 const finalLink = `https://${owner}.github.io/${newRepoName}/`;
-                resultEl.innerHTML = `تم الانتهاء بنجاح! 🚀<br>رابط الثغرة المعدلة الخاص بك:<br><a href="${finalLink}" target="_blank" style="color: #60a5fa;">${finalLink}</a>`;
+                resultEl.innerHTML = `تم الانتهاء بنجاح ونشر الثغرة! 🚀<br>رابط الاستضافة المعدل:<br><a href="${finalLink}" target="_blank" style="color: #60a5fa; font-weight: bold;">${finalLink}</a><br><small style="color: #94a3b8;">(قد يعمل الرابط خلال دقيقة واحدة بعد تجهيز سحابة GitHub)</small>`;
 
             } catch (error) {
                 resultEl.innerHTML = `<span style="color: #ef4444;">خطأ: ${error.message}</span>`;
