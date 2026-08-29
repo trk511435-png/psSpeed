@@ -1,1 +1,33 @@
+name: Deploy Accelerated Exploit
 
+on:
+  workflow_dispatch:
+    inputs:
+      exploit_url:
+        description: 'Original Exploit URL'
+        required: true
+        type: string
+      speed_level:
+        description: 'Speed Level'
+        required: true
+        type: string
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Run Acceleration Script
+        env:
+          GH_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          EXPLOIT_URL: ${{ github.event.inputs.exploit_url }}
+          SPEED_LEVEL: ${{ github.event.inputs.speed_level }}
+        run: |
+          node .github/scripts/builder.js
