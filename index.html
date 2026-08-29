@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS5 Exploit Speed Booster</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background: #0f172a; color: #f8fafc; text-align: center; padding: 40px; }
+        .box { background: #1e293b; padding: 30px; border-radius: 12px; max-width: 500px; margin: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        input, select { width: 90%; padding: 12px; margin: 10px 0; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: white; }
+        button { background: #3b82f6; color: white; border: none; padding: 12px 25px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        button:hover { background: #2563eb; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>منصة تسريع ثغرات PS5</h2>
+        <p>ضع رابط الثغرة واضبط سرعة الذاكرة</p>
+        <input type="text" id="exploitUrl" placeholder="رابط الثغرة على GitHub (مثلاً: رابط ملف HTML)">
+        <select id="speedLevel">
+            <option value="1">سرعة عادية (1x)</option>
+            <option value="5">سرعة متوسطة (5x)</option>
+            <option value="10">سرعة فائقة (10x)</option>
+        </select>
+        <br>
+        <button onclick="startBoosting()">بدء التسريع وإنشاء الرابط</button>
+        <p id="result" style="margin-top: 20px; color: #22c55e;"></p>
+    </div>
+
+    <script>
+        function startBoosting() {
+            const url = document.getElementById('exploitUrl').value;
+            const speed = document.getElementById('speedLevel').value;
+            if(!url) {
+                alert('الرجاء إدخال الرابط أولاً!');
+                return;
+            }
+            document.getElementById('result').innerHTML = `جاري معالجة الثغرة وضبط السرعة (${speed}x)...`;
+            // سيتم ربط زر التوليد لاحقاً بـ GitHub API لإنشاء المستودع المتسلسل (psSpeed1, psSpeed2...)
+        }
+    </script>
+</body>
+</html>
