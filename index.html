@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PS5 Exploit Speed Booster</title>
+    <title>PS5 Speed Hub</title>
     <link rel="stylesheet" href="css/main.css">
-    <style>
-        .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid #ffffff; border-radius: 50%; border-top-color: transparent; animation: spin 0.8s linear infinite; vertical-align: middle; margin-left: 8px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-    </style>
 </head>
 <body>
     <div class="navbar">
@@ -21,29 +17,28 @@
 
     <div class="container">
         <div class="card">
-            <h2 style="text-align: center; margin-top: 0;">منصة تسريع ثغرات PS5</h2>
+            <h2>تسريع ثغرات PS5</h2>
+            <p style="color: #94a3b8;">أنشئ مستودعاً وموقعاً جاهزاً ومسرعاً بثغرتك بضغطة زر واحدة دون تعقيد.</p>
             
-            <div class="form-group">
-                <label>GitHub Personal Access Token:</label>
-                <input type="password" id="ghToken" class="form-control" placeholder="أدخل التوكن الخاص بك هنا (يُحفظ محلياً)">
-            </div>
+            <form id="speedForm">
+                <div class="form-group">
+                    <label for="exploitUrl">رابط الثغرة (Raw URL):</label>
+                    <input type="url" id="exploitUrl" class="form-control" placeholder="https://raw.githubusercontent.com/..." required>
+                </div>
 
-            <div class="form-group">
-                <label>رابط الثغرة الأصلي (GitHub):</label>
-                <input type="text" id="exploitUrl" class="form-control" placeholder="https://raw.githubusercontent.com/.../index.html">
-            </div>
+                <div class="form-group">
+                    <label for="speedLevel">مستوى السرعة:</label>
+                    <select id="speedLevel" class="form-control">
+                        <option value="1">سرعة عادية (1x)</option>
+                        <option value="5">سرعة عالية (5x)</option>
+                        <option value="10">سرعة فائقة (10x)</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label>اختر مستوى السرعة:</label>
-                <select id="speedLevel" class="form-control">
-                    <option value="1">سرعة عادية (1x)</option>
-                    <option value="5">سرعة متوسطة (5x)</option>
-                    <option value="10">سرعة فائقة (10x - تكرار مكثف للذاكرة)</option>
-                </select>
-            </div>
+                <button type="submit" class="btn" id="submitBtn">بدء التسريع والنشر 🚀</button>
+            </form>
 
-            <button class="btn" onclick="createBoostedRepo()">بدء التسريع ونشر الرابط تلقائياً</button>
-            <p id="result" style="margin-top: 20px; text-align: center; word-break: break-all;"></p>
+            <div id="statusMessage" style="margin-top: 20px; text-align: center; font-weight: bold;"></div>
         </div>
     </div>
 
