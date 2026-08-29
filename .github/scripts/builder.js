@@ -76,14 +76,32 @@ async function main() {
             public: true
         });
 
-        console.log('Fetching exploit code...');
+        console.log('Fetching single-file exploit content...');
         let rawCode = await fetchUrl(exploitUrl);
-        rawCode = `/* Accelerated by PS5 Speed Hub - Level ${speed}x */\n` + rawCode;
-        const encodedContent = Buffer.from(rawCode).toString('base64');
+        
+        // حقن وسم التسريع وهيكلة الملف الموحد
+        const optimizedContent = `<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>PS5 Accelerated Exploit [Level ${speed}x]</title>
+    <style>
+        /* Speed Hub Optimization Inject */
+        body { background-color: #000; color: #fff; font-family: sans-serif; text-align: center; padding-top: 50px; }
+        .speed-badge { position: fixed; top: 10px; right: 10px; background: #3b82f6; padding: 5px 10px; border-radius: 5px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="speed-badge">Speed Mode: ${speed}x 🚀</div>
+    ${rawCode.includes('<html') ? rawCode : `<script>${rawCode}</script>`}
+</body>
+</html>`;
 
-        console.log('Uploading index.html to new repository...');
+        const encodedContent = Buffer.from(optimizedContent).toString('base64');
+
+        console.log('Uploading clean index.html to new repository...');
         await githubRequest(`/repos/${owner}/${nextRepoName}/contents/index.html`, 'PUT', {
-            message: 'Add accelerated exploit file',
+            message: 'Deploy single-file optimized exploit',
             content: encodedContent
         });
 
