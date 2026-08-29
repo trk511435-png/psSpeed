@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PS5 Speed Hub</title>
+    <title>PS5 Speed Hub - المنصة الاحترافية</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+    <div class="hero-glow"></div>
+    
     <div class="navbar">
-        <div>
-            <a href="index.html" style="color: #3b82f6;">الصفحة الرئيسية</a>
-            <a href="dashboard.html">الأرشيف (Dashboard)</a>
-        </div>
-        <div style="font-weight: bold;">PS5 Speed Hub</div>
+        <div class="logo">⚡ PS5 Speed Hub</div>
+        <div class="badge">النظام الآمن والمشفر</div>
     </div>
 
     <div class="container">
         <div class="card">
-            <h2>تسريع ثغرات PS5</h2>
-            <p style="color: #94a3b8;">أنشئ مستودعاً وموقعاً جاهزاً ومسرعاً بثغرتك بضغطة زر واحدة دون تعقيد.</p>
+            <div class="card-header">
+                <h2>تسريع ثغرات بلايستيشن 5</h2>
+                <p>أنشئ مستودعاً وموقعاً سحابياً مسرعاً بثغرتك بضغطة زر واحدة بكل أمان.</p>
+            </div>
             
             <form id="speedForm">
                 <div class="form-group">
@@ -27,18 +28,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="speedLevel">مستوى السرعة:</label>
+                    <label for="speedLevel">مستوى التسريع المطلوب:</label>
                     <select id="speedLevel" class="form-control">
-                        <option value="1">سرعة عادية (1x)</option>
-                        <option value="5">سرعة عالية (5x)</option>
-                        <option value="10">سرعة فائقة (10x)</option>
+                        <option value="1">سرعة قياسية (1x)</option>
+                        <option value="5">سرعة مضاعفة (5x)</option>
+                        <option value="10">سرعة فائقة جداً (10x)</option>
                     </select>
                 </div>
 
-                <button type="submit" class="btn" id="submitBtn">بدء التسريع والنشر 🚀</button>
+                <button type="submit" class="btn" id="submitBtn">بدء التسريع والنشر الفوري 🚀</button>
             </form>
 
-            <div id="statusMessage" style="margin-top: 20px; text-align: center; font-weight: bold;"></div>
+            <div id="statusMessage" class="status-box"></div>
         </div>
     </div>
 
